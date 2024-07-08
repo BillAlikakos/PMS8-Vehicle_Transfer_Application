@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  postgres:
+    image: ghcr.io/billalikakos/my-postgres:0.8
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: <DB_USERNAME>
+      POSTGRES_USER: <DB_PASSWORD>
+      POSTGRES_DB: <DB_NAME>
+    networks:
+      - my-network
+  web:
+    image: ghcr.io/billalikakos/demo-app:0.8
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+    depends_on:
+      - postgres
+networks:
+  my-network:

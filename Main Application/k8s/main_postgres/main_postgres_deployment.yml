@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main-postgres
+  template:
+    metadata:
+      labels:
+        app: main-postgres
+    spec:
+      containers:
+      - name: main-postgres
+        image: ghcr.io/billalikakos/my-postgres:0.8
+        env:
+        - name: POSTGRES_DB
+          value: TestDatabase
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: main-postgres-secret
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: main-postgres-secret
+              key: password
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-storage
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: main-postgres-pvc

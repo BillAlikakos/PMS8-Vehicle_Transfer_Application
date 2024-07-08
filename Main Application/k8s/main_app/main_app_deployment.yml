@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main-app
+  template:
+    metadata:
+      labels:
+        app: main-app
+    spec:
+      containers:
+      - name: main-app
+        image: ghcr.io/billalikakos/demo-app:0.92
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /config
+          name: config-volume
+        env:
+        - name: SPRING_CONFIG_LOCATION
+          value: file:/config/application.properties
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: main-postgres-secret
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: main-postgres-secret
+              key: password
+      volumes:
+      - name: config-volume
+        configMap:
+          name: main-app-config

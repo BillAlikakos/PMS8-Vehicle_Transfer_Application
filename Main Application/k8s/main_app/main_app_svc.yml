@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: main-app-clip
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+  selector:
+    app: main-app
