@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Registration Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .field {
+            margin-bottom: 15px;
+        }
+        .field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .field span {
+            display: block;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vehicle Registration Document</h1>
+        <div class="field">
+            <label for="vehicle_id">Vehicle ID (License Plate Number)</label>
+            <span id="vehicle_id">{0}</span>
+        </div>
+        <div class="field">
+            <label for="owner_first_name">First Name</label>
+            <span id="owner_first_name">{1}</span>
+        </div>
+		 <div class="field">
+            <label for="owner_last_name">Last Name</label>
+            <span id="owner_last_name">{2}</span>
+        </div>
+        <div class="field">
+            <label for="make">Make</label>
+            <span id="make">{3}</span>
+        </div>
+        <div class="field">
+            <label for="model">Model</label>
+            <span id="model">{4}</span>
+        </div>
+        <div class="field">
+            <label for="year">Year</label>
+            <span id="year">{5}</span>
+        </div>
+        <div class="field">
+            <label for="displacement">Displacement</label>
+            <span id="displacement">{6}</span>
+        </div>
+        <div class="field">
+            <label for="color">Color</label>
+            <span id="color">{7}</span>
+        </div>
+        <div class="field">
+            <label for="date_of_inspection">Date of Inspection</label>
+            <span id="date_of_inspection">{8}</span>
+        </div>
+    </div>
+</body>
+</html>

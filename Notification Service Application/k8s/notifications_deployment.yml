@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notificationservice
+  template:
+    metadata:
+      labels:
+        app: notificationservice
+    spec:
+      containers:
+      - name: notificationservice
+        image: ghcr.io/billalikakos/notificationservice:0.93
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /config
+          name: config-volume
+        env:
+        - name: SPRING_CONFIG_LOCATION
+          value: file:/config/application.properties
+      volumes:
+      - name: config-volume
+        configMap:
+          name: notification-service-config

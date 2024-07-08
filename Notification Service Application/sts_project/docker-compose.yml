@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  notification_service:
+    image: ghcr.io/billalikakos/notificationservice:0.85
+    ports:
+      - "8083:8080"
+    networks:
+      - my-network
+    depends_on:
+      - mailhog
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - my-network
+
+networks:
+  my-network:
