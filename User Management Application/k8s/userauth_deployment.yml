@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userauth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userauth
+  template:
+    metadata:
+      labels:
+        app: userauth
+    spec:
+      containers:
+      - name: userauth
+        image: ghcr.io/billalikakos/userauth:0.92
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /config
+          name: config-volume
+        env:
+        - name: SPRING_CONFIG_LOCATION
+          value: file:/config/application.properties
+      volumes:
+      - name: config-volume
+        configMap:
+          name:  userauth-config
