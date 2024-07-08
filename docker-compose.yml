@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  postgres:
+    image: ghcr.io/billalikakos/my-postgres:0.8
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: TestDatabase
+    networks:
+      - my-network
+  web:
+    image: ghcr.io/billalikakos/demo-app:0.92
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+    depends_on:
+      - postgres
+  fe:
+    image: ghcr.io/billalikakos/vehicletransfer:0.25
+    ports:
+      - "8088:80"
+    networks:
+      - my-network
+    depends_on:
+        - userauth
+  userauth:
+    image: ghcr.io/billalikakos/userauth:0.91
+    ports:
+      - "8082:8080"
+    networks:
+      - keycloak_container_keycloak_demo
+      - my-network
+  notificationservice:
+    image: ghcr.io/billalikakos/notificationservice:0.92
+    ports:
+      - "8083:8080"
+    networks:
+      - my-network
+    depends_on:
+      - mailhog
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - my-network
+networks:
+  my-network:
+  keycloak_container_keycloak_demo:
+    external: true
