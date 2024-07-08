@@ -1,0 +1,42 @@
+version: '3'
+volumes:
+  postgres_data:
+    driver: local
+services:
+  postgres:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: [POSTGRES_USER]
+      POSTGRES_PASSWORD: [POSTGRES_PASSWORD]
+    healthcheck:
+      test: "exit 0"
+    ports:
+      - 5433:5432
+    networks:
+      - keycloak_demo
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3-0
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_PASSWORD: [KC_DB_PASSWORD]
+      KC_DB_USERNAME: [KC_DB_USERNAME]
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: [KC_ADMIN]
+      KEYCLOAK_ADMIN_PASSWORD: [KC_ADMIN_PASSWORD]
+      KC_LOG_LEVEL: DEBUG
+    ports:
+      - 8081:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - keycloak_demo
+networks:
+  keycloak_demo:
+    driver: bridge

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kc-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kc-postgres
+  template:
+    metadata:
+      labels:
+        app: kc-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          resources:
+            requests:
+                ephemeral-storage: "500Mi"
+            limits:
+                ephemeral-storage: "1Gi"
+          env:
+            - name: POSTGRES_DB
+              value: keycloak
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: kc-postgres-secret
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kc-postgres-secret
+                  key: password
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: kc-postgres-storage
+      volumes:
+        - name: kc-postgres-storage
+          persistentVolumeClaim:
+            claimName: kc-postgres-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kc-postgres
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: kc-postgres
