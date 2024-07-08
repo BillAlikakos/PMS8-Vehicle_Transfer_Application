@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vehicletransfer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vehicletransfer
+  template:
+    metadata:
+      labels:
+        app: vehicletransfer
+    spec:
+      containers:
+      - name: vehicletransfer
+        image: ghcr.io/billalikakos/vehicletransfer:0.25
+        ports:
+        - containerPort: 8088
+        imagePullPolicy: IfNotPresent

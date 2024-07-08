@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vehicletransfer-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target:
+spec:
+  rules:
+    - host: [INGRESS_HOSTNAME]
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vehicletransfer-clip
+                port:
+                  number: 8088
