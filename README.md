@@ -14,4 +14,4 @@ The application consists of the following components:
 - User management application, essentially a keycloak wrapper application that exposes the required functionality to the front end application via REST services.
 - Notification service that sends the corresponding e-mail notification upon the completion of the flow.
 
-Sample configuration & swagger files can be found under the correspoding directories.
+Sample configuration & swagger files can be found under the corresponding directories.
